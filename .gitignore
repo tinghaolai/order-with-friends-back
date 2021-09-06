@@ -1,3 +1,4 @@
-/src
 go.mod
 go.sum
+.idea
+owf.exe
