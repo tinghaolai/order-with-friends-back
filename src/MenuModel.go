@@ -1,6 +1,6 @@
 package src
 
-type Menu struct {
+type MenuRequest struct {
     MenuID int `json:"id"`
     MenuTitle string `json:"title" binding:"required"`
     MenuItemList []MenuItem `json:"items" binding:"lt=100,multiItemSize,dive"`

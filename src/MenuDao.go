@@ -31,7 +31,7 @@ func GetMenus(c *gin.Context) {
 }
 
 func StoreMenu(c *gin.Context) {
-    menu:=Menu{}
+    menu:=MenuRequest{}
     err:=c.BindJSON(&menu)
     if err!=nil {
         c.String(400, "param error %s", err.Error())
