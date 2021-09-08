@@ -14,5 +14,9 @@ func main() {
 	    v.RegisterValidation("multiItemSize", MultiItemSize)
 	}
 
+    go(func() {
+        InitDB()
+    })()
+
     router.Init()
 }
