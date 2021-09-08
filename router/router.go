@@ -5,6 +5,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	. "owf/src"
+	"log"
+	"context"
+	"time"
 )
 
 func Init() {
@@ -25,5 +28,24 @@ func Init() {
 			"error":  "404, page not exists!",
 		})
 	})
-	r.Run(":8000")
+
+	server := &http.Server {
+	    Addr: ":8000",
+	    Handler: r,
+	}
+
+    go(func() {
+    	err := server.ListenAndServe()
+    	if err != nil {
+    	    log.Fatal("Server error")
+    	}
+    })()
+
+    SeverNotify()
+    ctx,cancel:=context.WithTimeout(context.Background(), time.Second*5)
+    defer cancel()
+    err:=server.Shutdown(ctx)
+    if err!=nil {
+        log.Fatal("Server shut down")
+    }
 }
