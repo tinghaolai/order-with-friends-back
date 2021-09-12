@@ -9,7 +9,7 @@ type MenuRequest struct {
 
 type MenuItem struct {
     ItemName string `json:"name" binding:"required"`
-    Price int `json:"price" binding:"required,gt=0"`
+    Price int `json:"price" binding:"omitempty,gt=0"`
 }
 
 type MenuQuery struct {
