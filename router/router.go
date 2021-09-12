@@ -3,6 +3,7 @@ package router
 import (
 	_ "fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/gin-contrib/cors"
 	"net/http"
 	. "owf/src"
 	"log"
@@ -12,6 +13,13 @@ import (
 
 func Init() {
 	r := gin.Default()
+    corsConf := cors.DefaultConfig()
+    corsConf.AllowAllOrigins = true
+    corsConf.AllowMethods = []string{"GET", "POST", "DELETE", "OPTIONS", "PUT"}
+    corsConf.AllowHeaders = []string{"Authorization", "Content-Type", "Upgrade", "Origin", "token", "Connection",
+        "Accept-Encoding", "Accept-Language", "Host", "Access-Control-Request-Method", "Access-Control-Request-Headers"}
+
+    r.Use(cors.New(corsConf))
 	v1 := r.Group("/v1")
 	{
         v1.GET("/menu/:menu_id", GetMenu)
