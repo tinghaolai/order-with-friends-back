@@ -17,7 +17,9 @@ func LoginCheck() gin.HandlerFunc {
 }
 
 func GetMenu(c *gin.Context) {
-    c.String(200, "test response", c.Param("menu_id"))
+    menu := Menu{}
+    DBHelper.Find(&menu, c.Param("menu_id"))
+    c.JSON(200, menu)
 }
 
 func GetMenus(c *gin.Context) {

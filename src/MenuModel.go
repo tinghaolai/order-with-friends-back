@@ -16,3 +16,8 @@ type MenuQuery struct {
     Page int `json:"page" form:"page" binding:"required"`
     PageSize int `json:"size" form:"size" binding:"required"`
 }
+
+type Menu struct {
+    Id int `gorm:"primaryKey"`
+    Title string
+}
