@@ -1,0 +1,9 @@
+CREATE TABLE menu_items (
+ id SERIAL PRIMARY KEY,
+ name VARCHAR(255) NOT NULL,
+ menu_id BIGINT(20) UNSIGNED NOT NULL,
+ price FLOAT UNSIGNED,
+ remark TEXT
+);
+
+ALTER TABLE menu_items ADD FOREIGN KEY (menu_id) REFERENCES menus(id);
