@@ -3,6 +3,7 @@ package src
 import (
     "github.com/gin-gonic/gin"
     "net/http"
+    "gorm.io/gorm"
 )
 
 func LoginCheck() gin.HandlerFunc {
@@ -38,8 +39,24 @@ func StoreMenu(c *gin.Context) {
     if err!=nil {
         c.String(400, "param error %s", err.Error())
     } else {
+        var menuItems []MenuItem
+          for i := 0; i < len(menu.MenuItemList); i++ {
+              menuItems = append(menuItems, MenuItem {
+                  Name: menu.MenuItemList[i].ItemName,
+                  Price: menu.MenuItemList[i].Price,
+                  Remark: menu.MenuItemList[i].Remark})
+          }
+
+        menuCreate := Menu {
+            Title: menu.MenuTitle,
+            Phone: menu.Phone,
+            Remark: menu.Remark,
+            MenuItems: menuItems}
+
+        DBHelper.Transaction(func(tx *gorm.DB) error {
+            return tx.Create(&menuCreate).Error
+        })
+
         c.JSON(200, menu)
     }
-
-    c.String(200, "store response")
 }
