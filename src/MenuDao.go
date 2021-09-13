@@ -7,7 +7,7 @@ import (
 
 func LoginCheck() gin.HandlerFunc {
     return func (c *gin.Context) {
-        if _,status:=c.GetQuery("token");!status {
+        if token :=c.GetHeader("token");token != "testToken" {
             c.String(http.StatusUnauthorized, "no token")
             c.Abort()
         } else {
