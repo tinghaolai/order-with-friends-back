@@ -3,11 +3,11 @@ package src
 type MenuRequest struct {
     MenuID int `json:"id"`
     MenuTitle string `json:"title" binding:"required"`
-    MenuItemList []MenuItem `json:"items" binding:"lt=100,multiItemSize,dive"`
+    MenuItemList []MenuItemRequest `json:"items" binding:"lt=100,multiItemSize,dive"`
     MenuItemSize int `json:"itemSize"`
 }
 
-type MenuItem struct {
+type MenuItemRequest struct {
     ItemName string `json:"name" binding:"required"`
     Price int `json:"price" binding:"omitempty,gt=0"`
 }
