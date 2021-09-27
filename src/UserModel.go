@@ -7,7 +7,7 @@ type UserRequest struct {
 }
 
 type User struct {
-    Id int `gorm:"primaryKey"`
+    Id uint `gorm:"primaryKey"`
     Name string
     Account string
     Password string
