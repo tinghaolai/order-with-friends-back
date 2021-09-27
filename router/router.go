@@ -20,7 +20,7 @@ func Init() {
         "Accept-Encoding", "Accept-Language", "Host", "Access-Control-Request-Method", "Access-Control-Request-Headers"}
 
     r.Use(cors.New(corsConf))
-	v1 := r.Group("/v1")
+	v1 := r.Group("/v1", EnableCookieSession())
 	{
         v1.GET("/menu/:menu_id", GetMenu)
         v1.GET("/menus", GetMenus)
