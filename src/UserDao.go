@@ -52,3 +52,37 @@ func CheckPasswordHash(password, hash string) bool {
     err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
     return err == nil
 }
+
+func FindUser(id uint) (user User) {
+    DBHelper.Where("id = ?", id).First(&user)
+    return
+}
+
+func GetUserByAccount(account string) (user User) {
+    DBHelper.Where("account = ?", account).First(&user)
+    return
+}
+
+
+func UserLogin(c *gin.Context) {
+    request := map[string]string{}
+    err:=c.BindJSON(&request)
+    if err!=nil {
+        c.String(400, "binding error %s", err.Error())
+        return
+    }
+
+    if hasSession := HasLoginSession(c); hasSession == true {
+        c.String(200, "already login")
+        return
+    }
+
+    user := GetUserByAccount(request["account"])
+    if passCheck := CheckPasswordHash(request["password"], user.Password); passCheck == false {
+        c.String(401, "wrong password  %s", user.Password)
+        return
+    }
+
+    SaveAuthSession(c, user.Id)
+    c.String(200, "login success")
+}
