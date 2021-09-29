@@ -72,17 +72,11 @@ func UserLogin(c *gin.Context) {
         return
     }
 
-    if hasSession := HasLoginSession(c); hasSession == true {
-        c.String(200, "already login")
-        return
-    }
-
     user := GetUserByAccount(request["account"])
     if passCheck := CheckPasswordHash(request["password"], user.Password); passCheck == false {
         c.String(401, "wrong password  %s", user.Password)
         return
     }
 
-    SaveAuthSession(c, user.Id)
-    c.String(200, "login success")
+    GenerateToken(c, user)
 }
