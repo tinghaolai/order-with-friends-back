@@ -22,12 +22,12 @@ func Init() {
     r.Use(cors.New(corsConf))
 	v1 := r.Group("/v1", EnableCookieSession())
 	{
-        v1.GET("/menu/:menu_id", GetMenu)
-        v1.GET("/menus", GetMenus)
         v1.POST("/register", UserRegister)
         v1.POST("/login", UserLogin)
         v1.Use(LoginCheck())
         {
+            v1.GET("/menu/:menu_id", GetMenu)
+            v1.GET("/menus", GetMenus)
             v1.POST("/menu", StoreMenu)
         }
 	}
