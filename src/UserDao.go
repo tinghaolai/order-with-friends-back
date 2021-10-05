@@ -3,6 +3,8 @@ package src
 import (
     "github.com/gin-gonic/gin"
     "golang.org/x/crypto/bcrypt"
+    "time"
+    "math/rand"
 )
 
 func UserRegister(c *gin.Context) {
@@ -79,4 +81,24 @@ func UserLogin(c *gin.Context) {
     }
 
     GenerateToken(c, user)
+}
+
+func GetRefreshToken(user User) string {
+    if (user.RefreshToken == "") {
+        user.RefreshToken = GenerateRefreshToken();
+        DBHelper.Save(&user)
+    }
+
+    return user.RefreshToken
+}
+
+var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+func GenerateRefreshToken() (string) {
+    rand.Seed(time.Now().UnixNano())
+    b := make([]rune, 10)
+    for i := range b {
+        b[i] = letters[rand.Intn(len(letters))]
+    }
+    return string(b)
 }

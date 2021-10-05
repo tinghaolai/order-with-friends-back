@@ -29,6 +29,7 @@ type CustomClaims struct {
 type LoginResult struct {
 	Token string `json:"token"`
 	Name string `json:"name"`
+	RefreshToken string `json:"refreshToken"`
 }
 
 func GenerateToken(c *gin.Context, user User) {
@@ -54,6 +55,7 @@ func GenerateToken(c *gin.Context, user User) {
 	data := LoginResult {
 		Name:  user.Name,
 		Token: token,
+		RefreshToken: GetRefreshToken(user),
 	}
 
 	c.JSON(http.StatusOK, gin.H{

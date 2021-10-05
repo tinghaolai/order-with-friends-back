@@ -11,4 +11,5 @@ type User struct {
     Name string
     Account string
     Password string
+    RefreshToken string
 }
