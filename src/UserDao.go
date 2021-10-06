@@ -65,6 +65,10 @@ func GetUserByAccount(account string) (user User) {
     return
 }
 
+func GetUserByRefreshToken(refreshToken string) (user User) {
+    DBHelper.Where("refresh_token = ?", refreshToken).First(&user)
+    return
+}
 
 func UserLogin(c *gin.Context) {
     request := map[string]string{}
@@ -77,6 +81,23 @@ func UserLogin(c *gin.Context) {
     user := GetUserByAccount(request["account"])
     if passCheck := CheckPasswordHash(request["password"], user.Password); passCheck == false {
         c.String(401, "wrong password  %s", user.Password)
+        return
+    }
+
+    GenerateToken(c, user)
+}
+
+func TokenRefresh(c *gin.Context) {
+    request := map[string]string{}
+    err:=c.BindJSON(&request)
+    if err!=nil {
+        c.String(400, "binding error %s", err.Error())
+        return
+    }
+
+    user := GetUserByRefreshToken(request["refreshToken"])
+    if user.Id == 0 {
+        c.String(400, "data not found")
         return
     }
 

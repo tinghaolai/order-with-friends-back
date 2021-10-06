@@ -24,6 +24,7 @@ func Init() {
 	{
         v1.POST("/register", UserRegister)
         v1.POST("/login", UserLogin)
+        v1.POST("/tokenRefresh", TokenRefresh)
         v1.Use(JWTAuth())
         {
             v1.GET("/menu/:menu_id", GetMenu)
